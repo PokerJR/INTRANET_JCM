@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión Escolar</title>
+    <!-- Estilos internos para mejorar la presentación -->
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #2a9df4;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav {
+            background-color: #1a7ec8;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+        }
+
+        nav ul li a:hover {
+            background-color: #155a8e;
+            border-radius: 4px;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #2a9df4;
+        }
+
+        /* Estilos del formulario */
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        fieldset {
+            border: 2px solid #2a9df4;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        legend {
+            padding: 5px 10px;
+            font-weight: bold;
+            color: #2a9df4;
+        }
+
+        button {
+            grid-column: 1 / span 2;
+            padding: 15px;
+            background-color: #2a9df4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1a7ec8;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2a9df4;
+            color: white;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Encabezado del sistema -->
+    <header>
+        <h1>Sistema de Gestión Escolar</h1>
+    </header>
+
+    <!-- Menú de navegación -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="registro.html">Registro</a></li>
+            <li><a href="asignacion.html">Asignación de Cursos</a></li>
+            <li><a href="notas.html">Gestión de Notas</a></li>
+            <li><a href="horarios.html">Horarios</a></li>
+        </ul>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main>
+        <section id="registro">
+            <h2>Registro de Alumnos y Profesores</h2>
+
+            <!-- Formulario de Registro -->
+            <form action="/submit" method="POST">
+                <!-- Registro de Alumnos -->
+                <fieldset>
+                    <legend>Registro de Alumnos</legend>
+
+                    <label for="nombreAlumno">Nombre del Alumno:</label>
+                    <input type="text" id="nombreAlumno" name="nombreAlumno" required>
+
+                    <label for="edadAlumno">Edad:</label>
+                    <input type="number" id="edadAlumno" name="edadAlumno" required>
+
+                    <label for="grado">Grado:</label>
+                    <select id="grado" name="grado">
+                        <option value="primero">Primero</option>
+                        <option value="segundo">Segundo</option>
+                        <option value="tercero">Tercero</option>
+                        <!-- Agrega más opciones según los grados disponibles -->
+                    </select>
+
+                    <label for="emailAlumno">Email del Alumno:</label>
+                    <input type="email" id="emailAlumno" name="emailAlumno" required>
+                </fieldset>
+
+                <!-- Registro de Profesores -->
+                <fieldset>
+                    <legend>Registro de Profesores</legend>
+
+                    <label for="nombreProfesor">Nombre del Profesor:</label>
+                    <input type="text" id="nombreProfesor" name="nombreProfesor" required>
+
+                    <label for="materia">Materia:</label>
+                    <select id="materia" name="materia">
+                        <option value="matematicas">Matemáticas</option>
+                        <option value="ciencias">Ciencias</option>
+                        <option value="historia">Historia</option>
+                        <!-- Agrega más opciones según las materias disponibles -->
+                    </select>
+
+                    <label for="emailProfesor">Email del Profesor:</label>
+                    <input type="email" id="emailProfesor" name="emailProfesor" required>
+                </fieldset>
+
+                <!-- Botón de envío -->
+                <button type="submit">Registrar</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>&copy; 2024 Sistema de Gestión Escolar. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
