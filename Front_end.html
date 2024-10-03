@@ -122,6 +122,34 @@
             background-color: #f0f4f8;
             border-right: 1px solid #ccc;
         }
+
+        /* Estilos para el panel de opciones después de iniciar sesión */
+        .dashboard {
+            display: none; /* Inicialmente oculto */
+            margin-top: 20px;
+        }
+
+        .dashboard h2 {
+            color: #3578ba;
+        }
+
+        .dashboard ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .dashboard ul li {
+            background-color: #e7ecf3;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .dashboard ul li:hover {
+            background-color: #d0d7e2;
+        }
+
     </style>
 </head>
 <body>
@@ -133,24 +161,42 @@
                 <h2>JOSE CARLOS MARIATEGUI</h2>
             </div>
             <h1>INTRANET</h1>
-            <!-- Modificación del formulario para conectarlo con Flask -->
-            <form action="/" method="POST">
+            <form id="loginForm">
                 <div class="input-icon">
                     <span>📄</span>
-                    <input type="text" name="username" placeholder="Número de documento" required>
+                    <input type="text" placeholder="Número de documento" required>
                 </div>
                 <div class="input-icon">
                     <span>🔒</span>
-                    <input type="password" name="password" placeholder="Contraseña" required>
+                    <input type="password" placeholder="Contraseña" required>
                 </div>
                 <button type="submit">INGRESAR</button>
                 <div class="forgot-password">
                     <a href="#">¿Olvidaste tu contraseña?</a>
                 </div>
             </form>
+
+            <!-- Panel de opciones después de iniciar sesión -->
+            <div class="dashboard" id="dashboard">
+                <h2>Bienvenido, Estudiante</h2>
+                <ul>
+                    <li>Horario de Clases</li>
+                    <li>Pagos</li>
+                    <li>Justificación de Asistencias</li>
+                </ul>
+            </div>
         </div>
         <!-- Parte derecha con la imagen -->
         <div class="right"></div>
     </div>
+
+    <script>
+        // Lógica para simular inicio de sesión
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+        });
+    </script>
 </body>
 </html>
