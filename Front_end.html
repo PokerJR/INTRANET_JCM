@@ -5,36 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intranet - Universidad Nacional del Altiplano</title>
     <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(15px); }
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            0% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInRight {
+            0% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
         body, html {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #f0f4f8;
+            background-color: #f5f7fa;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f0f4f8, #d9e2ec, #bcccdc);
         }
 
         .container {
-            width: 900px;
+            width: 1500px;
+            height: 90vh;
             display: flex;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: white;
+            position: relative;
+            animation: fadeIn 1s ease-out;
         }
 
         .left {
-            background-color: #e7ecf3;
+            background-color: #e1e8ed;
             padding: 40px;
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            border-right: 2px solid #cfd9df;
+            animation: slideInLeft 1s ease;
         }
 
         .left h1 {
-            color: #707070;
+            color: #37474f;
             font-size: 36px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .left form {
@@ -44,34 +90,45 @@
 
         .left input {
             margin: 10px 0;
-            padding: 10px;
+            padding: 15px;
             font-size: 16px;
             border-radius: 5px;
-            border: 1px solid #ccc;
+            border: 1px solid #bbc4cb;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .left input:focus {
+            border-color: #1e88e5;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.2);
         }
 
         .left button {
-            padding: 10px;
-            background-color: #3578ba;
+            padding: 12px;
+            background-color: #1e88e5;
             color: white;
             font-size: 18px;
+            font-weight: bold;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 15px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 6px 15px rgba(30, 136, 229, 0.3);
         }
 
         .left button:hover {
-            background-color: #2d6fa3;
+            background-color: #1565c0;
+            transform: translateY(-2px);
         }
 
         .left .forgot-password {
             text-align: right;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         .left .forgot-password a {
-            color: #3578ba;
+            color: #1e88e5;
             text-decoration: none;
         }
 
@@ -81,25 +138,27 @@
 
         .right {
             flex: 1;
-            background-image: url('https://www.example.com/image.jpg'); /* Usa tu propia imagen */
+            background-image: url('logo2.jpg'); /* Usa tu propia imagen */
             background-size: cover;
             background-position: center;
+            animation: slideInRight 1s ease;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .logo img {
-            height: 50px;
-            margin-right: 10px;
+            height: 60px;
+            margin-right: 15px;
         }
 
         .logo h2 {
             font-size: 24px;
-            color: #333;
+            color: #37474f;
+            font-weight: bold;
         }
 
         .input-icon {
@@ -107,12 +166,17 @@
             align-items: center;
             border: 1px solid #ccc;
             border-radius: 5px;
-            margin-top: 10px;
+            margin-top: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-icon:hover {
+            border-color: #1e88e5;
         }
 
         .input-icon input {
             border: none;
-            padding: 10px;
+            padding: 15px;
             width: 100%;
             outline: none;
         }
@@ -123,66 +187,81 @@
             border-right: 1px solid #ccc;
         }
 
-        .dashboard {
-            display: none;
-            margin-top: 20px;
+        /* Geometrical Shapes */
+        .shape {
+            position: absolute;
+            background-color: rgba(30, 136, 229, 0.1);
+            border: 2px solid rgba(30, 136, 229, 0.2);
+            border-radius: 50%;
+            animation: floating 6s ease-in-out infinite;
         }
 
-        .dashboard h2 {
-            color: #3578ba;
+        .shape-1 {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: -50px;
+            animation-delay: 0s;
         }
 
-        .dashboard ul {
-            list-style-type: none;
-            padding: 0;
+        .shape-2 {
+            width: 150px;
+            height: 150px;
+            bottom: 10%;
+            right: -70px;
+            animation-delay: 2s;
         }
 
-        .dashboard ul li {
-            background-color: #e7ecf3;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            cursor: pointer;
+        .shape-3 {
+            width: 80px;
+            height: 80px;
+            top: 70%;
+            left: -40px;
+            animation-delay: 4s;
         }
 
-        .dashboard ul li:hover {
-            background-color: #d0d7e2;
+        .shape-4 {
+            width: 120px;
+            height: 120px;
+            top: 30%;
+            right: -60px;
+            animation-delay: 3s;
         }
 
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Parte izquierda del login -->
         <div class="left">
             <div class="logo">
                 <img src="logo.png" alt="Logo JCM">
                 <h2>JOSE CARLOS MARIATEGUI</h2>
             </div>
             <h1>INTRANET</h1>
-            <form id="loginForm" method="POST" action="/login">
+            <form action="#">
                 <div class="input-icon">
                     <span>📄</span>
-                    <input type="text" name="username" placeholder="Número de documento" required>
+                    <input type="text" placeholder="Número de documento" required>
                 </div>
                 <div class="input-icon">
                     <span>🔒</span>
-                    <input type="password" name="password" placeholder="Contraseña" required>
+                    <input type="password" placeholder="Contraseña" required>
                 </div>
                 <button type="submit">INGRESAR</button>
                 <div class="forgot-password">
                     <a href="#">¿Olvidaste tu contraseña?</a>
                 </div>
             </form>
-            <div class="dashboard" id="dashboard">
-                <h2>Bienvenido, Estudiante</h2>
-                <ul>
-                    <li>Horario de Clases</li>
-                    <li>Pagos</li>
-                    <li>Justificación de Asistencias</li>
-                </ul>
-            </div>
         </div>
+        <!-- Parte derecha con la imagen -->
         <div class="right"></div>
+
+        <!-- Geometrical Shapes -->
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
     </div>
 </body>
 </html>
