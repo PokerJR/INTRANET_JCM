@@ -1,66 +1,47 @@
-from flask import Flask, request, render_template, redirect, url_for, session
-from flask_mysqldb import MySQL
-import bcrypt
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import mysql.connector
+import urllib.parse as urlparse
 
-app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+class MyServer(BaseHTTPRequestHandler):
+    def do_POST(self):
+        # Procesar los datos del formulario
+        content_length = int(self.headers['Content-Length'])
+        post_data = self.rfile.read(content_length)
+        fields = urlparse.parse_qs(post_data.decode('utf-8'))
+        username = fields['username'][0]
+        password = fields['password'][0]
 
-# Configuración de MySQL
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'tu_usuario_mysql'
-app.config['MYSQL_PASSWORD'] = 'tu_contraseña_mysql'
-app.config['MYSQL_DB'] = 'nombre_de_tu_base_de_datos'
+        # Conectar a la base de datos MySQL
+        conn = mysql.connector.connect(
+            host="localhost",
+            user="tu_usuario_mysql",
+            password="tu_contraseña_mysql",
+            database="nombre_de_tu_base_de_datos"
+        )
+        cursor = conn.cursor()
 
-mysql = MySQL(app)
+        # Verificar el usuario en la base de datos
+        cursor.execute("SELECT role FROM usuarios WHERE username = %s AND password = %s", (username, password))
+        user = cursor.fetchone()
 
-@app.route('/')
-def index():
-    return render_template('login.html')
-
-@app.route('/login', methods=['POST'])
-def login():
-    username = request.form['username']
-    password = request.form['password'].encode('utf-8')
-    
-    # Consulta en la base de datos
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM usuarios WHERE username = %s", [username])
-    user = cur.fetchone()
-    cur.close()
-    
-    if user and bcrypt.checkpw(password, user[2].encode('utf-8')):  # Comparar contraseñas
-        session['username'] = user[1]
-        session['role'] = user[3]
-        
-        if user[3] == 'docente':
-            return redirect(url_for('dashboard_docente'))
-        elif user[3] == 'estudiante':
-            return redirect(url_for('dashboard_estudiante'))
+        # Si las credenciales son correctas
+        if user:
+            role = user[0]
+            response = f"Bienvenido, {role}."
         else:
-            return redirect(url_for('dashboard_administrativo'))
-    else:
-        return 'Usuario o contraseña incorrectos'
+            response = "Usuario o contraseña incorrectos."
 
-@app.route('/dashboard_docente')
-def dashboard_docente():
-    if session['role'] == 'docente':
-        return "Bienvenido, docente!"
-    else:
-        return "Acceso no autorizado."
+        # Enviar la respuesta al cliente
+        self.send_response(200)
+        self.send_header("Content-type", "text/html")
+        self.end_headers()
+        self.wfile.write(response.encode())
 
-@app.route('/dashboard_estudiante')
-def dashboard_estudiante():
-    if session['role'] == 'estudiante':
-        return "Bienvenido, estudiante!"
-    else:
-        return "Acceso no autorizado."
+        # Cerrar la conexión con la base de datos
+        cursor.close()
+        conn.close()
 
-@app.route('/dashboard_administrativo')
-def dashboard_administrativo():
-    if session['role'] == 'administrativo':
-        return "Bienvenido, administrativo!"
-    else:
-        return "Acceso no autorizado."
-
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    webServer = HTTPServer(('localhost', 8080), MyServer)
+    print("Servidor iniciado en http://localhost:8080")
+    webServer.serve_forever()
